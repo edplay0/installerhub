@@ -1,15 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: ============================================================================
-:: AutoSetup.cmd
-:: - No questions. We set Sunshine Web UI creds, enable UPnP, set firewall,
-::   set fixed wallpaper, and clean up the installer automatically.
-:: - Flow: download installer -> run interactive installer (wait) -> configure
-::   Sunshine -> delete installer -> show summary -> press any key to exit.
-:: ============================================================================
-
-:: ----- Configuration (do not prompt) -----
 set "SUN_USER=user"
 set "SUN_PASS=pass"
 set "HOST=localhost"
@@ -34,9 +25,6 @@ set "INSTALLDIR=%ProgramFiles%\Sunshine"
 set "SUN_EXE=%INSTALLDIR%\sunshine.exe"
 
 echo.
-echo === Sunshine Manual Install + Auto-Config ===
-echo Download folder: %DL%
-echo Source URL     : %URL%
 echo Credentials    : %SUN_USER% / %SUN_PASS%
 echo Web UI (LAN)   : https://%HOST%:%PORT%
 echo.
@@ -44,7 +32,6 @@ echo.
 if not exist "%DL%" mkdir "%DL%" >nul 2>&1
 
 :: ----- Download installer (curl first, PowerShell fallback) -----
-echo Downloading installer to: %INSTALLER%
 curl -L --retry 3 --retry-delay 2 -o "%INSTALLER%" "%URL%"
 if errorlevel 1 (
   echo curl failed, trying PowerShell fallback...
@@ -109,13 +96,11 @@ netsh advfirewall firewall add rule name="Sunshine UDP 48010" dir=in action=allo
 
 :: ----- Set fixed Windows wallpaper -----
 if exist "%WALLPAPER%" (
-  echo Setting wallpaper: %WALLPAPER%
   reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%WALLPAPER%" /f >nul
   reg add "HKCU\Control Panel\Desktop" /v WallpaperStyle /t REG_SZ /d 10 /f >nul
   reg add "HKCU\Control Panel\Desktop" /v TileWallpaper /t REG_SZ /d 0 /f >nul
   RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
 ) else (
-  echo Wallpaper not found at %WALLPAPER% - skipping.
 )
 
 :cleanup
@@ -144,3 +129,4 @@ set /a i+=1
 if %i% GEQ %T% (exit /b 1)
 timeout /t 1 >nul
 goto :wait_loop
+
