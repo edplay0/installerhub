@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Installer Hub</title>
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg:#0f1115;
+      --card:#141824;
+      --text:#e8ecf1;
+      --muted:#a6b0c3;
+      --accent:#4da3ff;
+      --accent-2:#6bb5ff;
+      --ring:#1b2a49;
+      --shadow: 0 10px 30px rgba(0,0,0,.4);
+      --radius:18px;
+      --btn-radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 1200px at 10% -10%, #0b1225 0%, transparent 60%),
+        radial-gradient(1000px 800px at 110% 10%, #0d1a33 0%, transparent 55%),
+        var(--bg);
+      color:var(--text);
+      display:grid;
+      place-items:center;
+    }
+    .wrap{
+      width:min(780px, 92vw);
+      background:linear-gradient(180deg, #151a28, #121623);
+      border:1px solid #1e2740;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .wrap:before{
+      content:"";
+      position:absolute;
+      inset:-30% -10% auto -10%;
+      height:180px;
+      background:radial-gradient(closest-side, rgba(77,163,255,.10), transparent);
+      filter:blur(30px);
+      pointer-events:none;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:20px;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:10px;
+      background:linear-gradient(135deg,#82c5ff,#2f86ff);
+      display:grid;place-items:center;
+      color:#022;
+      font-weight:800;
+      letter-spacing:.5px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 6px 18px rgba(77,163,255,.35);
+      user-select:none;
+    }
+    h1{
+      font-size:20px;line-height:1.2;margin:0;
+    }
+    p.sub{
+      margin:4px 0 0;color:var(--muted);font-size:14px
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:10px;
+    }
+    @media (min-width:640px){
+      .grid{grid-template-columns:1fr 1fr 1fr}
+    }
+
+    .btn{
+      -webkit-tap-highlight-color: transparent;
+      display:flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:18px 14px;
+      border-radius:var(--btn-radius);
+      background:linear-gradient(180deg,#192030,#141a28);
+      border:1px solid #223050;
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      letter-spacing:.2px;
+      position:relative;
+      overflow:hidden;
+      transition:transform .08s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+      box-shadow:0 2px 0 #0b0e16, inset 0 0 0 1px rgba(255,255,255,.03);
+      cursor:pointer;
+      text-align:center;
+      min-height:74px;
+    }
+    .btn:focus-visible{
+      outline:0;
+      box-shadow:0 0 0 3px var(--ring), 0 0 0 6px rgba(77,163,255,.55);
+    }
+    .btn:hover{
+      background:linear-gradient(180deg,#1c2436,#151c2c);
+      border-color:#2c4377;
+      transform:translateY(-1px);
+    }
+    .btn:active{
+      transform:translateY(0);
+      background:linear-gradient(180deg,#172033,#121827);
+    }
+    .btn .pill{
+      position:absolute; inset:auto 12px 12px auto;
+      padding:2px 8px; font-size:12px; border-radius:999px;
+      color:#0a1224; background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      border:1px solid #cde6ff33;
+      box-shadow:0 4px 14px rgba(77,163,255,.35);
+      user-select:none;
+    }
+    .btn .title{font-size:16px}
+    .btn small{display:block;color:var(--muted);font-weight:500;margin-top:4px}
+
+    .footer{
+      margin-top:18px;
+      display:flex; justify-content:space-between; align-items:center;
+      color:var(--muted); font-size:13px;
+    }
+    .status{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; background:#121a2a; border:1px solid #223050;
+      border-radius:10px;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;background:#0f1626;border:1px solid #233454;border-radius:6px;padding:2px 6px}
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-label="Installer Hub">
+    <header>
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Installer Hub & Utilities</h1>
+      </div>
+    </header>
+
+    <section class="grid" aria-label="Primary actions">
+      <button class="btn" id="btnInstallHub" type="button" aria-label="Download or open Installer Hub">
+        <div>
+          <div class="title">Install Hub</div>
+          <small>Download & run</small>
+        </div>
+        <span class="pill">EXE</span>
+      </button>
+
+      <button class="btn" id="btnAutoSunshine" type="button" aria-label="Auto Setup Sunshine">
+        <div>
+          <div class="title">Auto Setup Sunshine</div>
+          <small>Download & run</small>
+        </div>
+        <span class="pill">CMD</span>
+      </button>
+
+      <button class="btn" id="btnPairMoonlight" type="button" aria-label="Pair Code Moonlight">
+        <div>
+          <div class="title">Pair Code Moonlight</div>
+          <small>Just enter code</small>
+        </div>
+        <span class="pill">CMD</span>
+      </button>
+    </section>
+
+    <div class="footer">
+      <div class="status">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="statusText">Ready.</span>
+      </div>
+      <div>Tip: hold <span class="kbd">Shift</span> when clicking to copy the URL instead of navigating.</div>
+    </div>
+  </main>
+
+  <script>
+const LINKS = {
+  installHub:   "https://st7.ranoz.gg/1M331xuM-InstallerHub.exe",
+  autoSunshine: "https://raw.githubusercontent.com/edplay0/12/refs/heads/main/AutoSetup.cmd",
+  pairMoonlight:"https://raw.githubusercontent.com/edplay0/12/refs/heads/main/PairCodeMoonlight.cmd"
+};
+
+    const $ = s => document.querySelector(s);
+    const status = $("#statusText");
+
+    function go(url, name){
+      if (!url || url.startsWith("https://example.com/")){
+        status.textContent = `No link set for ${name}. Please edit the page and set a real URL.`;
+        return;
+      }
+      if (go._shiftCopy){
+        navigator.clipboard?.writeText(url);
+        status.textContent = `${name} link copied to clipboard.`;
+        return;
+      }
+      status.textContent = `Opening ${name}...`;
+      // Force download/open in same tab (safer for EXE/CMD links hosted over HTTPS/file server)
+      window.location.href = url;
+    }
+    window.addEventListener("keydown", e => { if(e.key==="Shift") go._shiftCopy=true; });
+    window.addEventListener("keyup",   e => { if(e.key==="Shift") go._shiftCopy=false; });
+
+    $("#btnInstallHub").addEventListener("click",  () => go(LINKS.installHub,   "Install Hub"));
+    $("#btnAutoSunshine").addEventListener("click",() => go(LINKS.autoSunshine, "Auto Setup Sunshine"));
+    $("#btnPairMoonlight").addEventListener("click",() => go(LINKS.pairMoonlight,"Pair Code Moonlight"));
+  </script>
+</body>
+</html>
