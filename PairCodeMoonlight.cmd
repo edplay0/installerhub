@@ -34,12 +34,13 @@ curl -s -k -u "%SUN_USER%:%SUN_PASS%" -H "Content-Type: application/json" ^
   -d "{\"pin\":\"%PIN%\",\"name\":\"%DEVNAME%\"}" https://%HOST%:%PORT%/api/pin >nul
 
 if errorlevel 1 (
-  echo ❌ Pairing failed. Make sure Sunshine is running and the PIN is still visible in Moonlight.
+  echo Pairing failed. Make sure Sunshine is running and the PIN is still visible in Moonlight.
 ) else (
-  echo ✅ PIN sent. Pairing should complete on your Moonlight device.
+  echo PIN sent. Pairing should complete on your Moonlight device.
 )
 
 echo.
 echo Press any key to close...
 pause >nul
 exit /b 0
+
