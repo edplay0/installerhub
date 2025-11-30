@@ -173,25 +173,45 @@ const LINKS = {
 const $ = s => document.querySelector(s);
 const status = $("#statusText");
 
-function go(url, name) {
-  if (!url || url.startsWith("https://example.com/")) {
-    status.textContent = `No link set for ${name}. Please edit the page and set a real URL.`;
-    return;
-  }
-  if (go._shiftCopy) {
-    navigator.clipboard?.writeText(url);
-    status.textContent = `${name} link copied to clipboard.`;
-    return;
-  }
-  status.textContent = `Opening ${name}...`;
-  window.location.href = url;
+function downloadFile(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
-window.addEventListener("keydown", e => { if(e.key==="Shift") go._shiftCopy=true; });
-window.addEventListener("keyup", e => { if(e.key==="Shift") go._shiftCopy=false; });
+function go(url, name, forceDownload = false) {
+  if (!url) {
+    status.textContent = `No link set for ${name}.`;
+    return;
+  }
+
+  if (go._shiftCopy) {
+    navigator.clipboard?.writeText(url).then(() => {
+      status.textContent = `${name} link copied to clipboard.`;
+    }).catch(() => {
+      status.textContent = `Failed to copy ${name} link to clipboard.`;
+    });
+    return;
+  }
+
+  if (forceDownload || url.endsWith('.cmd')) {
+    const filename = url.split('/').pop() || 'script.cmd';
+    status.textContent = `Downloading ${name}...`;
+    downloadFile(url, filename);
+  } else {
+    status.textContent = `Opening ${name}...`;
+    window.location.href = url;
+  }
+}
+
+window.addEventListener("keydown", e => { if (e.key === "Shift") go._shiftCopy = true; });
+window.addEventListener("keyup", e => { if (e.key === "Shift") go._shiftCopy = false; });
 
 $("#btnInstallHub").addEventListener("click", () => go(LINKS.installHub, "Installer Hub"));
-$("#btnWindowsActivator").addEventListener("click", () => go(LINKS.windowsActivator, "Windows Activator"));
+$("#btnWindowsActivator").addEventListener("click", () => go(LINKS.windowsActivator, "Windows Activator", true));
   </script>
 </body>
 </html>
