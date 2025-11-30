@@ -66,12 +66,7 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 6px 18px rgba(77,163,255,.35);
       user-select:none;
     }
-    h1{
-      font-size:20px;line-height:1.2;margin:0;
-    }
-    p.sub{
-      margin:4px 0 0;color:var(--muted);font-size:14px
-    }
+    h1{font-size:20px;line-height:1.2;margin:0;}
     .grid{
       display:grid;
       grid-template-columns:1fr;
@@ -79,9 +74,8 @@
       margin-top:10px;
     }
     @media (min-width:640px){
-      .grid{grid-template-columns:1fr 1fr 1fr}
+      .grid{grid-template-columns:1fr 1fr;}
     }
-
     .btn{
       -webkit-tap-highlight-color: transparent;
       display:flex; align-items:center; justify-content:center;
@@ -125,7 +119,6 @@
     }
     .btn .title{font-size:16px}
     .btn small{display:block;color:var(--muted);font-weight:500;margin-top:4px}
-
     .footer{
       margin-top:18px;
       display:flex; justify-content:space-between; align-items:center;
@@ -137,7 +130,6 @@
       border-radius:10px;
     }
     .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-    .kbd{font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;background:#0f1626;border:1px solid #233454;border-radius:6px;padding:2px 6px}
   </style>
 </head>
 <body>
@@ -145,75 +137,61 @@
     <header>
       <div class="logo" aria-hidden="true"></div>
       <div>
-        <h1>Installer Hub & Utilities</h1>
+        <h1>Installer Hub</h1>
       </div>
     </header>
-
     <section class="grid" aria-label="Primary actions">
-      <button class="btn" id="btnInstallHub" type="button" aria-label="Download or open Installer Hub">
+      <button class="btn" id="btnInstallHub" type="button" aria-label="Installer Hub">
         <div>
-          <div class="title">Install Hub</div>
+          <div class="title">Installer Hub</div>
           <small>Download & run</small>
         </div>
         <span class="pill">EXE</span>
       </button>
-
-      <button class="btn" id="btnAutoSunshine" type="button" aria-label="Auto Setup Sunshine">
+      <button class="btn" id="btnWindowsActivator" type="button" aria-label="Windows Activation Tool">
         <div>
-          <div class="title">Auto Setup Sunshine</div>
-          <small>Download & run</small>
-        </div>
-        <span class="pill">CMD</span>
-      </button>
-
-      <button class="btn" id="btnPairMoonlight" type="button" aria-label="Pair Code Moonlight">
-        <div>
-          <div class="title">Pair Code Moonlight</div>
-          <small>Just enter code</small>
+          <div class="title">Windows Activator</div>
+          <small>Activate Windows 10/11</small>
         </div>
         <span class="pill">CMD</span>
       </button>
     </section>
-
     <div class="footer">
       <div class="status">
         <span class="dot" aria-hidden="true"></span>
         <span id="statusText">Ready.</span>
       </div>
-      <div>Tip: hold <span class="kbd">Shift</span> when clicking to copy the URL instead of navigating.</div>
+      <div>Tip: hold Shift when clicking to copy the URL instead of navigating.</div>
     </div>
   </main>
-
   <script>
 const LINKS = {
-  installHub:   "https://st7.ranoz.gg/1M331xuM-InstallerHub.exe",
-  autoSunshine: "https://raw.githubusercontent.com/edplay0/installerhub/refs/heads/main/AutoSetup.cmd",
-  pairMoonlight:"https://raw.githubusercontent.com/edplay0/installerhub/refs/heads/main/PairCodeMoonlight.cmd"
+  installHub: "https://st7.ranoz.gg/1M331xuM-InstallerHub.exe",
+  windowsActivator: "https://raw.githubusercontent.com/edplay0/installerhub/refs/heads/main/activate.cmd"
 };
 
-    const $ = s => document.querySelector(s);
-    const status = $("#statusText");
+const $ = s => document.querySelector(s);
+const status = $("#statusText");
 
-    function go(url, name){
-      if (!url || url.startsWith("https://example.com/")){
-        status.textContent = `No link set for ${name}. Please edit the page and set a real URL.`;
-        return;
-      }
-      if (go._shiftCopy){
-        navigator.clipboard?.writeText(url);
-        status.textContent = `${name} link copied to clipboard.`;
-        return;
-      }
-      status.textContent = `Opening ${name}...`;
-      // Force download/open in same tab (safer for EXE/CMD links hosted over HTTPS/file server)
-      window.location.href = url;
-    }
-    window.addEventListener("keydown", e => { if(e.key==="Shift") go._shiftCopy=true; });
-    window.addEventListener("keyup",   e => { if(e.key==="Shift") go._shiftCopy=false; });
+function go(url, name) {
+  if (!url || url.startsWith("https://example.com/")) {
+    status.textContent = `No link set for ${name}. Please edit the page and set a real URL.`;
+    return;
+  }
+  if (go._shiftCopy) {
+    navigator.clipboard?.writeText(url);
+    status.textContent = `${name} link copied to clipboard.`;
+    return;
+  }
+  status.textContent = `Opening ${name}...`;
+  window.location.href = url;
+}
 
-    $("#btnInstallHub").addEventListener("click",  () => go(LINKS.installHub,   "Install Hub"));
-    $("#btnAutoSunshine").addEventListener("click",() => go(LINKS.autoSunshine, "Auto Setup Sunshine"));
-    $("#btnPairMoonlight").addEventListener("click",() => go(LINKS.pairMoonlight,"Pair Code Moonlight"));
+window.addEventListener("keydown", e => { if(e.key==="Shift") go._shiftCopy=true; });
+window.addEventListener("keyup", e => { if(e.key==="Shift") go._shiftCopy=false; });
+
+$("#btnInstallHub").addEventListener("click", () => go(LINKS.installHub, "Installer Hub"));
+$("#btnWindowsActivator").addEventListener("click", () => go(LINKS.windowsActivator, "Windows Activator"));
   </script>
 </body>
 </html>
